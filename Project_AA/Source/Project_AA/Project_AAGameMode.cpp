@@ -1,8 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "Project_AAGameMode.h"
-#include "Project_AACharacter.h"
-#include "UObject/ConstructorHelpers.h"
+#include "UI/DefaultHUD.h"
 
 AProject_AAGameMode::AProject_AAGameMode()
 {
@@ -12,4 +11,6 @@ AProject_AAGameMode::AProject_AAGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+
+	HUDClass = ADefaultHUD::StaticClass();
 }
