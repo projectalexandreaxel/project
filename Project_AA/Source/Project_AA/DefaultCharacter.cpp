@@ -30,6 +30,8 @@ ADefaultCharacter::ADefaultCharacter()
 
 	// TODO Use a default CharacterMovement class instead
 	SetupCharacterMovement();
+
+	SetupMesh();
 }
 
 void ADefaultCharacter::SetupCharacterMovement()
@@ -59,6 +61,12 @@ void ADefaultCharacter::SetupCamera()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+}
+
+void ADefaultCharacter::SetupMesh()
+{
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh>DefaultSkeletalMesh(TEXT("/Script/Engine.SkeletalMesh'/Game/Characters/Mannequin_UE4/Meshes/SK_Mannequin.SK_Mannequin'"));
+	GetMesh()->SetSkeletalMeshAsset(DefaultSkeletalMesh.Object);
 }
 
 void ADefaultCharacter::BeginPlay()

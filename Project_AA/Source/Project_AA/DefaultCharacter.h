@@ -47,6 +47,7 @@ public:
 private:
 	void SetupCharacterMovement();
 	void SetupCamera();
+	void SetupMesh();
 
 public:
 	/** Returns CameraBoom subobject **/
