@@ -18,8 +18,12 @@ public:
 	virtual void SetupInputComponent() override;
 
 private:
-	void MoveForward(float Value);
-	void MoveRight(float Value);
+	// Axis mapping
+	void MoveForwardBackward(float Value);
+	void MoveRightLeft(float Value);
+	void TurnRightLeft(float Value);
+	void LookUpDown(float Value);
 
+	// Action mapping
 	void Jump();
 };

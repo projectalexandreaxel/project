@@ -109,7 +109,7 @@ void ADefaultCharacter::BeginPlay()
 	}
 }
 
-void ADefaultCharacter::MoveForward(float Value)
+void ADefaultCharacter::MoveForwardBackward(float Value)
 {
 	if ( (Controller != NULL) && (Value != 0.0f) )
 	{
@@ -126,7 +126,7 @@ void ADefaultCharacter::MoveForward(float Value)
 	}
 }
 
-void ADefaultCharacter::MoveRight(float Value)
+void ADefaultCharacter::MoveRightLeft(float Value)
 {
     if ( (Controller != NULL) && (Value != 0.0f) )
 	{
@@ -140,5 +140,21 @@ void ADefaultCharacter::MoveRight(float Value)
 		// add movement in that direction
 		const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::Y);
 		AddMovementInput(Direction, Value);
+	}
+}
+
+void ADefaultCharacter::TurnRightLeft(float Value)
+{
+	if ( Controller != NULL)
+	{
+		AddControllerYawInput(Value);
+	}
+}
+
+void ADefaultCharacter::LookUpDown(float Value)
+{
+	if ( Controller != NULL)
+	{
+		AddControllerPitchInput(Value);
 	}
 }

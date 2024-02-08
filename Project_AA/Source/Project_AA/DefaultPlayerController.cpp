@@ -10,18 +10,20 @@ void ADefaultPlayerController::SetupInputComponent()
     Super::SetupInputComponent();
 
     // Moving
-    InputComponent->BindAxis("MoveForward", this, &ADefaultPlayerController::MoveForward);
-    InputComponent->BindAxis("MoveRight", this, &ADefaultPlayerController::MoveRight);
+    InputComponent->BindAxis("MoveForwardBackward", this, &ADefaultPlayerController::MoveForwardBackward);
+    InputComponent->BindAxis("MoveRightLeft", this, &ADefaultPlayerController::MoveRightLeft);
+    InputComponent->BindAxis("TurnRightLeft", this, &ADefaultPlayerController::TurnRightLeft);
+    InputComponent->BindAxis("LookUpDown", this, &ADefaultPlayerController::LookUpDown);
 
     InputComponent->BindAction("Jump", IE_Pressed, this, &ADefaultPlayerController::Jump);
 }
 
-void ADefaultPlayerController::MoveForward(float Value) {
+void ADefaultPlayerController::MoveForwardBackward(float Value) {
     ADefaultCharacter* ControlledCharacter = Cast<ADefaultCharacter>(GetPawn());
 
     if (ControlledCharacter)
     {
-        ControlledCharacter->MoveForward(Value);
+        ControlledCharacter->MoveForwardBackward(Value);
     }
     else
     {
@@ -29,12 +31,38 @@ void ADefaultPlayerController::MoveForward(float Value) {
     }
 }
 
-void ADefaultPlayerController::MoveRight(float Value) {
+void ADefaultPlayerController::MoveRightLeft(float Value) {
     ADefaultCharacter* ControlledCharacter = Cast<ADefaultCharacter>(GetPawn());
 
     if (ControlledCharacter)
     {
-        ControlledCharacter->MoveRight(Value);
+        ControlledCharacter->MoveRightLeft(Value);
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Controlled Character is not of type ADefaultCharacter"));
+    }
+}
+
+void ADefaultPlayerController::TurnRightLeft(float Value) {
+    ADefaultCharacter* ControlledCharacter = Cast<ADefaultCharacter>(GetPawn());
+
+    if (ControlledCharacter)
+    {
+        ControlledCharacter->TurnRightLeft(Value);
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Controlled Character is not of type ADefaultCharacter"));
+    }
+}
+
+void ADefaultPlayerController::LookUpDown(float Value) {
+    ADefaultCharacter* ControlledCharacter = Cast<ADefaultCharacter>(GetPawn());
+
+    if (ControlledCharacter)
+    {
+        ControlledCharacter->LookUpDown(Value);
     }
     else
     {

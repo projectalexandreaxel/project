@@ -65,11 +65,10 @@ public:
 	virtual void BeginPlay() override;
 	
 public:
-    // Fonction appelée lorsque le joueur appuie sur une touche de déplacement
-    void MoveForward(float Value);
-
-    // Fonction appelée lorsque le joueur appuie sur une touche de déplacement latéral
-    void MoveRight(float Value);
+    void MoveForwardBackward(float Value);
+    void MoveRightLeft(float Value);
+    void TurnRightLeft(float Value);
+	void LookUpDown(float Value);
 
 private:
 	void SetupCharacterMovement();
