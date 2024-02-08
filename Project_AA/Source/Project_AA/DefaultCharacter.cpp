@@ -32,6 +32,8 @@ ADefaultCharacter::ADefaultCharacter()
 	SetupCharacterMovement();
 
 	SetupMesh();
+
+	SetupStatus();
 }
 
 void ADefaultCharacter::SetupCharacterMovement()
@@ -70,6 +72,20 @@ void ADefaultCharacter::SetupMesh()
 
 	const ConstructorHelpers::FObjectFinder<UAnimBlueprint> PlayerAnimationBlueprint(TEXT("/Script/Engine.AnimBlueprint'/Game/Characters/Mannequins/Animations/ABP_Manny.ABP_Manny'"));
 	GetMesh()->SetAnimInstanceClass(PlayerAnimationBlueprint.Object->GeneratedClass);	
+}
+
+void ADefaultCharacter::SetupStatus()
+{
+	MaximumHealth = 500;
+	MaximumMagic = 500;
+	MaximumStamina = 50;
+
+	CurrentHealth = MaximumHealth;
+	CurrentMagic = MaximumMagic;
+	CurrentStamina = MaximumStamina;
+
+	Shield = 0;
+	Level = 0;
 }
 
 void ADefaultCharacter::BeginPlay()
