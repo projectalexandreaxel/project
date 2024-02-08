@@ -2,6 +2,7 @@
 
 
 #include "DefaultPlayerController.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "DefaultCharacter.h"
 
 void ADefaultPlayerController::SetupInputComponent()
@@ -12,6 +13,7 @@ void ADefaultPlayerController::SetupInputComponent()
     InputComponent->BindAxis("MoveForward", this, &ADefaultPlayerController::MoveForward);
     InputComponent->BindAxis("MoveRight", this, &ADefaultPlayerController::MoveRight);
 
+    InputComponent->BindAction("Jump", IE_Pressed, this, &ADefaultPlayerController::Jump);
 }
 
 void ADefaultPlayerController::MoveForward(float Value) {
@@ -33,6 +35,19 @@ void ADefaultPlayerController::MoveRight(float Value) {
     if (ControlledCharacter)
     {
         ControlledCharacter->MoveRight(Value);
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Controlled Character is not of type ADefaultCharacter"));
+    }
+}
+
+void ADefaultPlayerController::Jump() {
+    ADefaultCharacter* ControlledCharacter = Cast<ADefaultCharacter>(GetPawn());
+
+    if (ControlledCharacter)
+    {
+        ControlledCharacter->Jump();
     }
     else
     {
