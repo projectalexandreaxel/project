@@ -44,6 +44,10 @@ public:
     // Fonction appelée lorsque le joueur appuie sur une touche de déplacement latéral
     void MoveRight(float Value);
 
+private:
+	void SetupCharacterMovement();
+	void SetupCamera();
+
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }

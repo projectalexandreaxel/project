@@ -26,7 +26,14 @@ ADefaultCharacter::ADefaultCharacter()
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
-	// Configure character movement
+	SetupCamera();
+
+	// TODO Use a default CharacterMovement class instead
+	SetupCharacterMovement();
+}
+
+void ADefaultCharacter::SetupCharacterMovement()
+{
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f); // ...at this rotation rate
 
@@ -38,7 +45,10 @@ ADefaultCharacter::ADefaultCharacter()
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
+}
 
+void ADefaultCharacter::SetupCamera()
+{
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
@@ -49,9 +59,6 @@ ADefaultCharacter::ADefaultCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
-
-	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
-	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
 
 void ADefaultCharacter::BeginPlay()
@@ -91,7 +98,7 @@ void ADefaultCharacter::MoveRight(float Value)
 {
     if ( (Controller != NULL) && (Value != 0.0f) )
 	{
-		// find out which way is forward
+		// find out which way is right
 		FRotator Rotation = Controller->GetControlRotation();
 		// Limit pitch when walking or falling
 		if ( GetCharacterMovement()->IsMovingOnGround() || GetCharacterMovement()->IsFalling() )
