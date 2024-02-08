@@ -18,8 +18,10 @@ DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 ADefaultCharacter::ADefaultCharacter()
 {
+	CapsuleHalfHeight = 90.f;
+
 	// Set size for collision capsule
-	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
+	GetCapsuleComponent()->InitCapsuleSize(42.f, CapsuleHalfHeight);
 		
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
@@ -34,6 +36,20 @@ ADefaultCharacter::ADefaultCharacter()
 	SetupMesh();
 
 	SetupStatus();
+}
+
+void ADefaultCharacter::SetupCamera()
+{
+	// Create a camera boom (pulls in towards the player if there is a collision)
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	CameraBoom->SetupAttachment(RootComponent);
+	CameraBoom->TargetArmLength = 400.0f; // The camera follows at this distance behind the character	
+	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
+
+	// Create a follow camera
+	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
+	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
+	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 }
 
 void ADefaultCharacter::SetupCharacterMovement()
@@ -51,27 +67,16 @@ void ADefaultCharacter::SetupCharacterMovement()
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
 }
 
-void ADefaultCharacter::SetupCamera()
-{
-	// Create a camera boom (pulls in towards the player if there is a collision)
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 400.0f; // The camera follows at this distance behind the character	
-	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
-
-	// Create a follow camera
-	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
-	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
-}
-
 void ADefaultCharacter::SetupMesh()
 {
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh>DefaultSkeletalMesh(TEXT("/Script/Engine.SkeletalMesh'/Game/Characters/Mannequin_UE4/Meshes/SK_Mannequin.SK_Mannequin'"));
 	GetMesh()->SetSkeletalMeshAsset(DefaultSkeletalMesh.Object);
 
 	const ConstructorHelpers::FObjectFinder<UAnimBlueprint> PlayerAnimationBlueprint(TEXT("/Script/Engine.AnimBlueprint'/Game/Characters/Mannequins/Animations/ABP_Manny.ABP_Manny'"));
-	GetMesh()->SetAnimInstanceClass(PlayerAnimationBlueprint.Object->GeneratedClass);	
+	GetMesh()->SetAnimInstanceClass(PlayerAnimationBlueprint.Object->GeneratedClass);
+
+	// Adjust Mesh direction and rotation with player's capsule
+	GetMesh()->SetRelativeLocationAndRotation(FVector(0.f, 0.f, -CapsuleHalfHeight/2), FRotator(0.f, -90.f, 0.f));
 }
 
 void ADefaultCharacter::SetupStatus()
