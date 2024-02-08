@@ -67,6 +67,9 @@ void ADefaultCharacter::SetupMesh()
 {
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh>DefaultSkeletalMesh(TEXT("/Script/Engine.SkeletalMesh'/Game/Characters/Mannequin_UE4/Meshes/SK_Mannequin.SK_Mannequin'"));
 	GetMesh()->SetSkeletalMeshAsset(DefaultSkeletalMesh.Object);
+
+	const ConstructorHelpers::FObjectFinder<UAnimBlueprint> PlayerAnimationBlueprint(TEXT("/Script/Engine.AnimBlueprint'/Game/Characters/Mannequins/Animations/ABP_Manny.ABP_Manny'"));
+	GetMesh()->SetAnimInstanceClass(PlayerAnimationBlueprint.Object->GeneratedClass);	
 }
 
 void ADefaultCharacter::BeginPlay()
