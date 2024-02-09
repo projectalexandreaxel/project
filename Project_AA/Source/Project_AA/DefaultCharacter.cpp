@@ -9,6 +9,7 @@
 #include "GameFramework/Controller.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "InteractableInterface.h"
 #include "InputActionValue.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -36,6 +37,8 @@ ADefaultCharacter::ADefaultCharacter()
 	SetupMesh();
 
 	SetupStatus();
+
+	SetupInteractSphere();
 }
 
 void ADefaultCharacter::SetupCamera()
@@ -91,6 +94,13 @@ void ADefaultCharacter::SetupStatus()
 
 	Shield = 0;
 	Level = 0;
+}
+
+void ADefaultCharacter::SetupInteractSphere()
+{
+	InteractSphere = CreateDefaultSubobject<USphereComponent>(TEXT("InteractSphere"));
+	InteractSphere->SetupAttachment(RootComponent);
+	InteractSphere->SetSphereRadius(90.f);
 }
 
 void ADefaultCharacter::BeginPlay()
@@ -161,8 +171,18 @@ void ADefaultCharacter::LookUpDown(float Value)
 
 void ADefaultCharacter::Interact()
 {
-	if ( Controller != NULL)
+	if (Controller != NULL)
 	{
-		// TODO
+		TArray<AActor*> OverlappingActors;
+		InteractSphere->GetOverlappingActors(OverlappingActors);
+        
+        for (AActor* Actor : OverlappingActors)
+        {
+			IInteractableInterface* InteractableActor = Cast<IInteractableInterface>(Actor);
+    		if(InteractableActor)
+    		{
+        		InteractableActor->Interact();
+    		}
+        }
 	}
 }

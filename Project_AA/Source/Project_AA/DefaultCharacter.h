@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include <Components/SphereComponent.h>
 #include "DefaultCharacter.generated.h"
 
 class USpringArmComponent;
@@ -30,6 +31,9 @@ class ADefaultCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
+
+	UPROPERTY(EditAnywhere)
+	class USphereComponent* InteractSphere;
 
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -76,6 +80,7 @@ private:
 	void SetupCamera();
 	void SetupMesh();
 	void SetupStatus();
+	void SetupInteractSphere();
 
 public:
 	/** Returns CameraBoom subobject **/

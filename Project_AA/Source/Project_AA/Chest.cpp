@@ -15,9 +15,8 @@ AChest::AChest()
 	BoxComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Block);
 }
 
-// Called when the game starts or when spawned
-void AChest::BeginPlay()
+void AChest::Interact()
 {
-	Super::BeginPlay();
+	K2_DestroyActor();
 }
 
