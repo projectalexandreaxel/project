@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Weapons/Weapon.h"
 #include "Logging/LogMacros.h"
 #include <Components/SphereComponent.h>
 #include "DefaultCharacter.generated.h"
@@ -38,6 +39,9 @@ class ADefaultCharacter : public ACharacter
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputMappingContext* DefaultMappingContext;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon, meta = (AllowPrivateAccess = "true"))
+	AWeapon* EquippedWeapon;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Status, meta = (AllowPrivateAccess = "true"))
 	int32 MaximumHealth;
@@ -75,6 +79,7 @@ public:
 	void LookUpDown(float Value);
 
 	void Interact();
+	void Attack();
 private:
 	void SetupCharacterMovement();
 	void SetupCamera();

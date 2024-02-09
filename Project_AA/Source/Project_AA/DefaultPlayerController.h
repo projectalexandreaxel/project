@@ -27,4 +27,5 @@ private:
 	// Action mapping
 	void Jump();
 	void Interact();
+	void Attack();
 };

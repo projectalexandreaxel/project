@@ -11,6 +11,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Interactables/InteractableInterface.h"
 #include "InputActionValue.h"
+#include "Weapons/Sword.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -39,6 +40,9 @@ ADefaultCharacter::ADefaultCharacter()
 	SetupStatus();
 
 	SetupInteractSphere();
+
+	EquippedWeapon = CreateDefaultSubobject<ASword>(TEXT("EquippedWeapon"));
+	EquippedWeapon->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 void ADefaultCharacter::SetupCamera()
@@ -184,5 +188,13 @@ void ADefaultCharacter::Interact()
         		InteractableActor->Interact();
     		}
         }
+	}
+}
+
+void ADefaultCharacter::Attack()
+{
+	if (EquippedWeapon)
+	{
+		EquippedWeapon->Attack();
 	}
 }

@@ -17,6 +17,7 @@ void ADefaultPlayerController::SetupInputComponent()
 
     InputComponent->BindAction("Jump", IE_Pressed, this, &ADefaultPlayerController::Jump);
     InputComponent->BindAction("Interact", IE_Pressed, this, &ADefaultPlayerController::Interact);
+    InputComponent->BindAction("Attack", IE_Pressed, this, &ADefaultPlayerController::Attack);
 }
 
 void ADefaultPlayerController::MoveForwardBackward(float Value) {
@@ -90,6 +91,19 @@ void ADefaultPlayerController::Interact() {
     if (ControlledCharacter)
     {
         ControlledCharacter->Interact();
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Controlled Character is not of type ADefaultCharacter"));
+    }
+}
+
+void ADefaultPlayerController::Attack() {
+    ADefaultCharacter* ControlledCharacter = Cast<ADefaultCharacter>(GetPawn());
+
+    if (ControlledCharacter)
+    {
+        ControlledCharacter->Attack();
     }
     else
     {
