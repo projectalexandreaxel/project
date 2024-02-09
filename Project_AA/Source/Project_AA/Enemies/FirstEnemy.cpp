@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "FirstEnemy.h"
 #include "Components/CapsuleComponent.h"
 #include "AIController.h"
 #include "../DefaultCharacter.h"
-#include "FirstEnemy.h"
 
 AFirstEnemy::AFirstEnemy()
 {
