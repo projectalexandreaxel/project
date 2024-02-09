@@ -16,6 +16,7 @@ void ADefaultPlayerController::SetupInputComponent()
     InputComponent->BindAxis("LookUpDown", this, &ADefaultPlayerController::LookUpDown);
 
     InputComponent->BindAction("Jump", IE_Pressed, this, &ADefaultPlayerController::Jump);
+    InputComponent->BindAction("Interact", IE_Pressed, this, &ADefaultPlayerController::Interact);
 }
 
 void ADefaultPlayerController::MoveForwardBackward(float Value) {
@@ -76,6 +77,19 @@ void ADefaultPlayerController::Jump() {
     if (ControlledCharacter)
     {
         ControlledCharacter->Jump();
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Controlled Character is not of type ADefaultCharacter"));
+    }
+}
+
+void ADefaultPlayerController::Interact() {
+    ADefaultCharacter* ControlledCharacter = Cast<ADefaultCharacter>(GetPawn());
+
+    if (ControlledCharacter)
+    {
+        ControlledCharacter->Interact();
     }
     else
     {

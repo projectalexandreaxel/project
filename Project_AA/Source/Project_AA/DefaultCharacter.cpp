@@ -158,3 +158,11 @@ void ADefaultCharacter::LookUpDown(float Value)
 		AddControllerPitchInput(Value);
 	}
 }
+
+void ADefaultCharacter::Interact()
+{
+	if ( Controller != NULL)
+	{
+		// TODO
+	}
+}

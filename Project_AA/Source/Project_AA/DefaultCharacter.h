@@ -70,6 +70,7 @@ public:
     void TurnRightLeft(float Value);
 	void LookUpDown(float Value);
 
+	void Interact();
 private:
 	void SetupCharacterMovement();
 	void SetupCamera();
