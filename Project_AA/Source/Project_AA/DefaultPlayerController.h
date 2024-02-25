@@ -28,4 +28,6 @@ private:
 	void Jump();
 	void Interact();
 	void Attack();
+	void OnStartSprint();
+	void OnEndSprint();
 };

@@ -44,6 +44,9 @@ class ADefaultCharacter : public ACharacter
 	AWeapon* EquippedWeapon;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Status, meta = (AllowPrivateAccess = "true"))
+	float MaxSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Status, meta = (AllowPrivateAccess = "true"))
 	int32 MaximumHealth;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Status, meta = (AllowPrivateAccess = "true"))
@@ -80,6 +83,8 @@ public:
 
 	void Interact();
 	void Attack();
+	void OnStartSprint();
+	void OnEndSprint();
 private:
 	void SetupCharacterMovement();
 	void SetupCamera();

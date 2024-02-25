@@ -18,6 +18,8 @@ void ADefaultPlayerController::SetupInputComponent()
     InputComponent->BindAction("Jump", IE_Pressed, this, &ADefaultPlayerController::Jump);
     InputComponent->BindAction("Interact", IE_Pressed, this, &ADefaultPlayerController::Interact);
     InputComponent->BindAction("Attack", IE_Pressed, this, &ADefaultPlayerController::Attack);
+    InputComponent->BindAction("Sprint", IE_Pressed, this, &ADefaultPlayerController::OnStartSprint);
+    InputComponent->BindAction("Sprint", IE_Released, this, &ADefaultPlayerController::OnEndSprint);
 }
 
 void ADefaultPlayerController::MoveForwardBackward(float Value) {
@@ -104,6 +106,32 @@ void ADefaultPlayerController::Attack() {
     if (ControlledCharacter)
     {
         ControlledCharacter->Attack();
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Controlled Character is not of type ADefaultCharacter"));
+    }
+}
+
+void ADefaultPlayerController::OnStartSprint() {
+    ADefaultCharacter* ControlledCharacter = Cast<ADefaultCharacter>(GetPawn());
+
+    if (ControlledCharacter)
+    {
+        ControlledCharacter->OnStartSprint();
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Controlled Character is not of type ADefaultCharacter"));
+    }
+}
+
+void ADefaultPlayerController::OnEndSprint() {
+    ADefaultCharacter* ControlledCharacter = Cast<ADefaultCharacter>(GetPawn());
+
+    if (ControlledCharacter)
+    {
+        ControlledCharacter->OnEndSprint();
     }
     else
     {

@@ -32,12 +32,12 @@ ADefaultCharacter::ADefaultCharacter()
 
 	SetupCamera();
 
-	// TODO Use a default CharacterMovement class instead
-	SetupCharacterMovement();
-
 	SetupMesh();
 
 	SetupStatus();
+
+	// TODO Use a default CharacterMovement class instead
+	SetupCharacterMovement();
 
 	SetupInteractSphere();
 
@@ -68,7 +68,7 @@ void ADefaultCharacter::SetupCharacterMovement()
 	// instead of recompiling to adjust them
 	GetCharacterMovement()->JumpZVelocity = 700.f;
 	GetCharacterMovement()->AirControl = 0.35f;
-	GetCharacterMovement()->MaxWalkSpeed = 500.f;
+	GetCharacterMovement()->MaxWalkSpeed = MaxSpeed;
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
@@ -91,6 +91,7 @@ void ADefaultCharacter::SetupStatus()
 	MaximumHealth = 500;
 	MaximumMagic = 500;
 	MaximumStamina = 50;
+	MaxSpeed = 500.f;
 
 	CurrentHealth = MaximumHealth;
 	CurrentMagic = MaximumMagic;
@@ -197,4 +198,20 @@ void ADefaultCharacter::Attack()
 	{
 		EquippedWeapon->Attack();
 	}
+}
+
+void ADefaultCharacter::OnStartSprint()
+{
+	if ( GetCharacterMovement()->IsMovingOnGround() )
+		{
+			GetCharacterMovement()->MaxWalkSpeed = MaxSpeed + 200.f;
+		}
+}
+
+void ADefaultCharacter::OnEndSprint()
+{
+	if ( GetCharacterMovement()->IsMovingOnGround() )
+		{
+			GetCharacterMovement()->MaxWalkSpeed = MaxSpeed;
+		}
 }
